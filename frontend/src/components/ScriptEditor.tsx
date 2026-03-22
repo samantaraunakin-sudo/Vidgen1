@@ -12,7 +12,7 @@ interface ScriptEditorProps {
 }
 
 const WORD_TARGETS: Record<VideoMode, { min: number; max: number; duration: string }> = {
-  short: { min: 80, max: 150, duration: "30-60 sec" },
+  shorts: { min: 80, max: 150, duration: "30-60 sec" },
   long: { min: 600, max: 3000, duration: "4-20 min" },
   square: { min: 150, max: 450, duration: "1-3 min" },
 };
