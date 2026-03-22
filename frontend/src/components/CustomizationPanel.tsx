@@ -103,7 +103,7 @@ export default function CustomizationPanel({
           <span className="text-sm">
             Burn Subtitles
             <span className="text-xs ml-2" style={{ color: "var(--text-muted)" }}>
-              {mode === "short" ? "(Bold centered)" : "(Standard style)"}
+              {mode === "shorts" ? "(Bold centered)" : "(Standard style)"}
             </span>
           </span>
           <div
