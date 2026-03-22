@@ -1,0 +1,17 @@
+# Pinned dependencies for compatibility with MediaPipe and Coqui TTS
+numpy==1.26.4
+mediapipe==0.10.14
+coqui-tts==0.27.5
+torchaudio==2.10.0
+torch==2.10.0
+fastapi==0.115.0
+uvicorn[standard]==0.42.0
+python-multipart==0.0.22
+Pillow==12.1.1
+openai-whisper==20250625
+transformers==4.57.1
+ffmpeg-python==0.2.0
+pydantic==2.12.5
+requests==2.32.5
+opencv-python==4.10.0.84
+opencv-contrib-python==4.10.0.84

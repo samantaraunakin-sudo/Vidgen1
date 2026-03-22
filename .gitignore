@@ -1,0 +1,30 @@
+# Python / Backend
+backend/venv/
+backend/__pycache__/
+backend/.venv/
+backend/.env
+backend/.pytest_cache/
+backend/temp/
+backend/uploads/
+backend/outputs/
+backend/checkpoints/
+backend/gfpgan/weights/
+backend/*.zip
+backend/*.pth
+backend/*.onnx
+backend/*.pt
+backend/*.bin
+
+# Node / Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+
+# System
+.DS_Store
+Thumbs.db
