@@ -44,8 +44,15 @@ def generate_speech(
     try:
         from TTS.api import TTS
 
-        # Select model based on language
-        if language == "hi":
+        clone_mode = False
+        speaker_wav = None
+
+        if speaker.startswith("upload_"):
+            clone_mode = True
+            speaker_wav = os.path.join("outputs", f"{speaker}.wav")
+            # Download/Load XTTSv2 for Voice Cloning
+            model_name = "tts_models/multilingual/multi-dataset/xtts_v2"
+        elif language == "hi":
             model_name = "tts_models/hi/custom/vits"
         else:
             model_name = "tts_models/en/vctk/vits"
@@ -54,11 +61,19 @@ def generate_speech(
 
         if not is_long:
             # Short text — single call
-            tts.tts_to_file(
-                text=text,
-                speaker=speaker,
-                file_path=output_path,
-            )
+            if clone_mode:
+                tts.tts_to_file(
+                    text=text,
+                    speaker_wav=speaker_wav,
+                    language=language,
+                    file_path=output_path,
+                )
+            else:
+                tts.tts_to_file(
+                    text=text,
+                    speaker=speaker,
+                    file_path=output_path,
+                )
             return 1
         else:
             # Long text — process sentence by sentence and concatenate
@@ -69,11 +84,19 @@ def generate_speech(
 
             for i, sentence in enumerate(sentences):
                 chunk_path = os.path.join(temp_dir, f"tts_chunk_{i}.wav")
-                tts.tts_to_file(
-                    text=sentence,
-                    speaker=speaker,
-                    file_path=chunk_path,
-                )
+                if clone_mode:
+                    tts.tts_to_file(
+                        text=sentence,
+                        speaker_wav=speaker_wav,
+                        language=language,
+                        file_path=chunk_path,
+                    )
+                else:
+                    tts.tts_to_file(
+                        text=sentence,
+                        speaker=speaker,
+                        file_path=chunk_path,
+                    )
                 chunks.append(chunk_path)
 
             # Concatenate all chunks using FFmpeg

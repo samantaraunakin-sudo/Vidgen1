@@ -41,7 +41,9 @@ export default function VoiceSelector({
 }: VoiceSelectorProps) {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const cloneInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, isClone: boolean) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -55,7 +57,11 @@ export default function VoiceSelector({
       });
       const data = await response.json();
       if (data.id) {
-        onVoiceUpload(data.id);
+        if (isClone) {
+          onVoiceChange(data.id);
+        } else {
+          onVoiceUpload(data.id);
+        }
       }
     } catch (error) {
       console.error("Voice upload failed:", error);
@@ -68,17 +74,35 @@ export default function VoiceSelector({
         <div className="flex items-center gap-2">
           <span className="text-lg">🎙️</span> Voice Settings
         </div>
-        <button 
-          onClick={() => fileInputRef.current?.click()}
-          className="text-[10px] uppercase tracking-wider font-bold py-1 px-2 rounded bg-white/5 hover:bg-white/10"
-          style={{ color: "var(--accent)" }}
-        >
-          Upload Custom Voice
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => cloneInputRef.current?.click()}
+            className="text-[10px] uppercase tracking-wider font-bold py-1 px-2 rounded bg-white/5 hover:bg-white/10"
+            style={{ color: "var(--accent)" }}
+            title="Upload a 10s voice sample to clone your voice (ElevenLabs style)"
+          >
+            Clone Voice
+          </button>
+          <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="text-[10px] uppercase tracking-wider font-bold py-1 px-2 rounded bg-white/5 hover:bg-white/10"
+            style={{ color: "var(--text-secondary)" }}
+            title="Upload an entire audio track to skip Text-to-Speech completely"
+          >
+            Replace Audio
+          </button>
+        </div>
+        <input 
+          type="file" 
+          ref={cloneInputRef} 
+          onChange={(e) => handleFileUpload(e, true)} 
+          accept="audio/*" 
+          className="hidden" 
+        />
         <input 
           type="file" 
           ref={fileInputRef} 
-          onChange={handleFileUpload} 
+          onChange={(e) => handleFileUpload(e, false)} 
           accept="audio/*" 
           className="hidden" 
         />
